@@ -9,3 +9,13 @@ Sub criarCon(conn As String)
         End With
     End If
 End Sub
+
+Function fnExistsCon(conName As String) As Boolean
+    Dim objCn As WorkbookConnection
+    On Error GoTo er
+        Set objCn = ThisWorkbook.Connections(conName)
+        fnExistsCon = True
+        Exit Function
+er:
+    fnExistsCon = False
+End Function
