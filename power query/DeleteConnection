@@ -1,0 +1,7 @@
+'This sub delete the connection that was given
+Sub deleteCon(conn As String)
+    If fnExistsCon(conn) Then
+        ActiveWorkbook.Queries(conn).Delete
+        ActiveWorkbook.Connections(conn).Delete
+    End If
+End Sub
