@@ -1,0 +1,11 @@
+Sub criarCon(conn As String)
+    If Not fnExistsCon(conn) Then
+        With ActiveWorkbook
+            .Queries.Add Name:=conn, Formula:= _
+                "let" & Chr(13) & "" & Chr(10) & "    Fonte = Csv.Document(File.Contents(""C:\Path\to\archive\" & conn & ".csv""),[Delimiter="","", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None])," & Chr(13) & "" & Chr(10) & "    #""Cabeçalhos Promovidos"" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true])" & Chr(13) & "" & Chr(10) & "in" & Chr(13) & "" & Chr(10) & "    #""Cabeçalhos Promovidos"""
+            .Connections.Add2 conn, "Conexão com a consulta '" & conn & "' na pasta de trabalho.", _
+                "OLEDB;Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=" & conn & ";Extended Properties=" _
+                , """" & conn & """", 6, True, False
+        End With
+    End If
+End Sub
