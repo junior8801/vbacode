@@ -1,0 +1,13 @@
+'This function convert some query to power query M functions and resume the result like a table
+let
+  ReferenceTables = [orders_dataset = orders_dataset, order_items_dataset = order_items_dataset],
+  SqlQuery = "
+    SELECT order_items_dataset.order_item_id, orders_dataset.customer_id
+    FROM order_items_dataset,
+      orders_dataset 
+    where orders_dataset.order_id = order_items_dataset.order_id
+    ",
+  TranslatedToM = SqlExpression.ToExpression(SqlQuery, ReferenceTables),
+  back= Expression.Evaluate(TranslatedToM, #shared)(ReferenceTables)
+in
+  back
