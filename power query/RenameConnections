@@ -1,0 +1,14 @@
+'Sub to rename all connections that's countain couple of words in the name like "connection - test" it will turn on "test"
+Sub renameCon()
+    Dim objCn As WorkbookConnection
+    For Each objCn In ThisWorkbook.Connections()
+        lName = Split(objCn.Name, " ")
+        c = UBound(lName)
+        If UBound(lName) > 1 Then
+            With objCn
+                .Name = lName(2)
+                .OLEDBConnection.BackgroundQuery = False
+            End With
+        End If
+    Next objCn
+End Sub
