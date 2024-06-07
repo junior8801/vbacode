@@ -1,0 +1,42 @@
+Sub RemoveDuplicatesAndSave()
+    Dim ws As Worksheet
+    Dim inputCol As Range
+    Dim outputCol As Range
+    Dim cell As Range
+    Dim values() As String
+    Dim uniqueValues As Collection
+    Dim result As String
+    Dim i As Long
+    
+    ' Define the worksheet and the columns
+    Set ws = ThisWorkbook.Sheets("Base Entregas") ' Altere para o nome da sua planilha
+    Set inputCol = ws.Range("C3:C" & ws.Cells(ws.Rows.Count, "C").End(xlUp).Row) ' Coluna de entrada (A), ajuste conforme necessário
+    Set outputCol = ws.Range("D3") ' Coluna de saída (B), ajuste conforme necessário
+    
+    ' Limpa a coluna de saída antes de começar
+    ws.Range(outputCol, ws.Cells(ws.Rows.Count, outputCol.Column)).ClearContents
+    
+    ' Loop pelas células da coluna de entrada
+    For Each cell In inputCol
+        ' Split dos valores na célula
+        values = Split(cell.Value, ";")
+        
+        ' Usar uma Collection para manter os valores únicos
+        Set uniqueValues = New Collection
+        On Error Resume Next ' Ignorar erros para adicionar valores duplicados na Collection
+        For i = LBound(values) To UBound(values)
+            uniqueValues.Add Trim(values(i)), Trim(values(i))
+        Next i
+        On Error GoTo 0 ' Retornar ao modo de erro padrão
+        
+        ' Constrói a string de resultado com valores únicos
+        result = ""
+        For i = 1 To uniqueValues.Count
+            If i > 1 Then result = result & "; "
+            result = result & uniqueValues(i)
+        Next i
+        
+        ' Salva o resultado na coluna de saída
+        outputCol.Offset(cell.Row - inputCol.Row, 0).Value = result
+    Next cell
+End Sub
