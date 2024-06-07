@@ -9,7 +9,7 @@ Sub RemoveDuplicatesAndSave()
     Dim i As Long
     
     ' Define the worksheet and the columns
-    Set ws = ThisWorkbook.Sheets("Base Entregas") ' Altere para o nome da sua planilha
+    Set ws = ThisWorkbook.Sheets("Base") ' Altere para o nome da sua planilha
     Set inputCol = ws.Range("C3:C" & ws.Cells(ws.Rows.Count, "C").End(xlUp).Row) ' Coluna de entrada (A), ajuste conforme necessário
     Set outputCol = ws.Range("D3") ' Coluna de saída (B), ajuste conforme necessário
     
